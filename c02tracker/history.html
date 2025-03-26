@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carbon Footprint History</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="flex justify-center items-center min-h-screen bg-green-50">
+  <div class="px-8 py-6 mt-4 text-left bg-white shadow-lg rounded-lg w-96">
+    <h3 class="text-2xl font-bold text-center">My Carbon Footprint History</h3>
+    <div class="flex flex-col items-center mt-4">
+      <ul id="historyList" class="w-full max-w-lg text-center text-green-800 font-semibold"></ul>
+      <a href="home.html" class="mt-4 block text-blue-600 font-bold">Go Back to Calculator</a>
+      <button id="clearHistory" class="mt-4 bg-red-500 text-white font-bold py-2 px-4 rounded">Clear History</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const historyList = document.getElementById("historyList");
+      const records = JSON.parse(localStorage.getItem("carbonRecords")) || [];
+
+      if (records.length === 0) {
+        historyList.innerHTML = "<p class='text-red-500'>No records found.</p>";
+      } else {
+        records.forEach(record => {
+          let listItem = document.createElement("li");
+          listItem.className = "bg-green-200 p-2 mb-2 rounded shadow";
+          listItem.textContent = `${record.date}: ${record.footprint} kg CO2/day`;
+          historyList.appendChild(listItem);
+        });
+      }
+
+      document.getElementById("clearHistory").addEventListener("click", function() {
+        localStorage.removeItem("carbonRecords");
+        historyList.innerHTML = "<p class='text-red-500'>No records found.</p>";
+      });
+    });
+  </script>
+</body>
+</html>

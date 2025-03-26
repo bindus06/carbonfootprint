@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eco-News Feed</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-green-50 min-h-screen flex flex-col">
+  <header class="bg-white p-4 shadow-md text-center">
+    <h1 class="text-2xl font-bold text-green-700">Latest Eco-News</h1>
+  </header>
+
+  <main class="p-4 flex-grow">
+    <div class="bg-white shadow-md rounded p-6 text-center">
+      <h2 class="text-xl font-bold mb-4">Submit Your Eco-News</h2>
+      <form id="newsForm" class="space-y-4">
+        <input type="text" id="newsTitle" placeholder="News Title" class="w-full p-2 border rounded" required>
+        <input type="text" id="newsSource" placeholder="Source (e.g., BBC, Reuters)" class="w-full p-2 border rounded" required>
+        <input type="url" id="newsLink" placeholder="Article URL" class="w-full p-2 border rounded" required>
+        <button type="submit" class="bg-green-600 text-white p-2 rounded w-full">Submit News</button>
+      </form>
+    </div>
+
+    <div class="mt-6">
+      <h2 class="text-xl font-bold text-center mb-4">News Articles</h2>
+      <div id="news-container" class="space-y-4">
+        <!-- News articles will be injected here -->
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-white p-4 shadow-md text-center">
+    <p class="text-sm text-gray-600">&copy; 2025 CarbonWise by CODECRAFTERS</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const newsContainer = document.getElementById('news-container');
+      const newsForm = document.getElementById('newsForm');
+
+      // Load stored news articles
+      function loadNews() {
+        const savedNews = JSON.parse(localStorage.getItem('userNews')) || [];
+
+        // Clear container before adding articles
+        newsContainer.innerHTML = '';
+
+        savedNews.forEach(article => {
+          const articleElement = document.createElement('div');
+          articleElement.classList.add('bg-white', 'p-4', 'rounded', 'shadow-md');
+
+          articleElement.innerHTML = `
+            <h2 class="text-xl font-bold"><a href="${article.link}" target="_blank" class="text-green-700 hover:underline">${article.title}</a></h2>
+            <p class="text-sm text-gray-600">${article.source} - ${article.date}</p>
+          `;
+
+          newsContainer.appendChild(articleElement);
+        });
+      }
+
+      // Handle form submission
+      newsForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const title = document.getElementById('newsTitle').value;
+        const source = document.getElementById('newsSource').value;
+        const link = document.getElementById('newsLink').value;
+        const date = new Date().toLocaleDateString();
+
+        const newArticle = { title, source, link, date };
+
+        let savedNews = JSON.parse(localStorage.getItem('userNews')) || [];
+        savedNews.unshift(newArticle); // Add new article at the beginning
+        localStorage.setItem('userNews', JSON.stringify(savedNews));
+
+        // Clear form fields
+        newsForm.reset();
+
+        // Reload news
+        loadNews();
+      });
+
+      // Initial load
+      loadNews();
+    });
+  </script>
+</body>
+</html>

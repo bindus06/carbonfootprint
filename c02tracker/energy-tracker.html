@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Consumption Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-green-50 min-h-screen flex flex-col">
+    <header class="bg-white p-4 shadow-md text-center">
+        <h1 class="text-2xl font-bold text-green-700">Energy Consumption Tracker</h1>
+    </header>
+
+    <main class="p-4 flex-grow">
+        <div class="bg-white shadow-md rounded p-6">
+            <h2 class="text-xl font-bold text-center mb-4">Enter Your Energy Consumption</h2>
+            <form id="energyForm" class="space-y-4">
+                <input type="number" id="electricityUsage" placeholder="Electricity (kWh)" class="w-full p-2 border rounded" required>
+                <input type="number" id="gasUsage" placeholder="Gas Usage (liters)" class="w-full p-2 border rounded" required>
+                <input type="number" id="travelKm" placeholder="Travel (km by car)" class="w-full p-2 border rounded" required>
+                <button type="submit" class="bg-green-600 text-white p-2 rounded w-full">Save Data</button>
+            </form>
+        </div>
+
+        <div class="mt-6 bg-white shadow-md rounded p-6">
+            <h2 class="text-xl font-bold text-center mb-4">Your Energy Consumption History</h2>
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-green-200">
+                        <th class="p-2 border">Date</th>
+                        <th class="p-2 border">Electricity (kWh)</th>
+                        <th class="p-2 border">Gas (Liters)</th>
+                        <th class="p-2 border">Travel (km)</th>
+                        <th class="p-2 border">Total CO₂ (kg)</th>
+                        <th class="p-2 border">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTable">
+                    <!-- Data will be inserted here -->
+                </tbody>
+            </table>
+            <button id="clearDataBtn" class="mt-4 bg-red-600 text-white p-2 rounded w-full">Clear All Data</button>
+        </div>
+    </main>
+
+    <footer class="bg-white p-4 shadow-md text-center">
+        <p class="text-sm text-gray-600">&copy; 2025 Eco-Friendly Web App</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const historyTable = document.getElementById('historyTable');
+            const energyForm = document.getElementById('energyForm');
+            const clearDataBtn = document.getElementById('clearDataBtn');
+
+            function loadHistory() {
+                const savedRecords = JSON.parse(localStorage.getItem('energyRecords')) || [];
+                historyTable.innerHTML = '';
+
+                savedRecords.forEach((record, index) => {
+                    const row = `<tr class="border">
+                        <td class="p-2 border">${record.date}</td>
+                        <td class="p-2 border">${record.electricityUsage} kWh</td>
+                        <td class="p-2 border">${record.gasUsage} Liters</td>
+                        <td class="p-2 border">${record.travelKm} km</td>
+                        <td class="p-2 border">${record.totalCO2.toFixed(2)} kg CO₂</td>
+                        <td class="p-2 border">
+                            <button onclick="deleteRecord(${index})" class="bg-red-500 text-white px-2 py-1 rounded">🗑️</button>
+                        </td>
+                    </tr>`;
+                    historyTable.innerHTML += row;
+                });
+            }
+
+            energyForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                const electricityUsage = parseFloat(document.getElementById('electricityUsage').value);
+                const gasUsage = parseFloat(document.getElementById('gasUsage').value);
+                const travelKm = parseFloat(document.getElementById('travelKm').value);
+                const date = new Date().toLocaleDateString();
+
+                // CO₂ Emission Factors (kg CO₂ per unit)
+                const electricityCO2 = electricityUsage * 0.713;
+                const gasCO2 = gasUsage * 2.4745;
+                const travelCO2 = travelKm * 0.20;
+                const totalCO2 = electricityCO2 + gasCO2 + travelCO2;
+
+                const newRecord = { date, electricityUsage, gasUsage, travelKm, totalCO2 };
+                let savedRecords = JSON.parse(localStorage.getItem('energyRecords')) || [];
+                savedRecords.unshift(newRecord);
+                localStorage.setItem('energyRecords', JSON.stringify(savedRecords));
+
+                energyForm.reset();
+                loadHistory();
+            });
+
+            window.deleteRecord = (index) => {
+                let savedRecords = JSON.parse(localStorage.getItem('energyRecords')) || [];
+                if (confirm("Are you sure you want to delete this entry?")) {
+                    savedRecords.splice(index, 1);
+                    localStorage.setItem('energyRecords', JSON.stringify(savedRecords));
+                    loadHistory();
+                }
+            };
+
+            clearDataBtn.addEventListener('click', () => {
+                if (confirm("Are you sure you want to delete all data?")) {
+                    localStorage.removeItem('energyRecords');
+                    loadHistory();
+                }
+            });
+
+            loadHistory();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarbonWise</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('nature-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-green-100 min-h-screen flex flex-col">
+    <header class="bg-white p-4 shadow-md text-center flex flex-col items-center">
+    <h1 class="text-2xl font-bold text-green-700">Welcome to your Sustainability Dashboard, <span id="username"></span></h1>
+    <button onclick="logout()" class="bg-red-500 text-white px-4 py-1 rounded shadow-md hover:bg-red-700 text-sm absolute right-4">Logout</button>
+</header>
+
+    <main class="p-4 flex-grow">
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <button onclick="window.location.href='calculator.html'" class="bg-green-500 text-white p-4 rounded shadow-md hover:bg-green-700">Carbon Footprint Calculator</button>
+            <button onclick="window.location.href='chat.html'" class="bg-green-500 text-white p-4 rounded shadow-md hover:bg-green-700">AI Chatbot</button>
+            <button onclick="window.location.href='community.html'" class="bg-green-500 text-white p-4 rounded shadow-md hover:bg-green-700">Community Forum</button>
+            <button onclick="window.location.href='rewards.html'" class="bg-green-500 text-white p-4 rounded shadow-md hover:bg-green-700">Rewards System</button>
+            <button onclick="window.location.href='econews.html'" class="bg-green-500 text-white p-4 rounded shadow-md hover:bg-green-700">Eco-News Feed</button>
+            <button onclick="window.location.href='energy-tracker.html'" class="bg-green-500 text-white p-4 rounded shadow-md hover:bg-green-700">Track Energy Consumption</button>
+        </div>
+    </main>
+  
+    <footer class="bg-white p-4 shadow-md text-center">
+        <p class="text-sm text-gray-600">&copy;2025 CarbonWise by CODECRAFTERS</p>
+    </footer>
+
+    <script>
+        const loggedInUser = localStorage.getItem("loggedInUser");
+
+        if (!loggedInUser) {
+            alert("You must log in first!");
+            window.location.href = "login.html";
+        } else {
+            document.getElementById("username").textContent = loggedInUser;
+        }
+
+        function logout() {
+            localStorage.removeItem("loggedInUser");
+            alert("Logged out successfully!");
+            window.location.href = "login.html";
+        }
+    </script>
+</body>
+</html>

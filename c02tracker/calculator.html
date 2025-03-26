@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carbon Footprint Calculator</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="flex justify-center items-center min-h-screen bg-green-50">
+  <div class="px-8 py-6 mt-4 text-left bg-white shadow-lg rounded-lg w-96">
+    <h3 class="text-2xl font-bold text-center">Carbon Footprint Calculator</h3>
+    <div class="flex justify-center min-h-screen items-center">
+        <div class="px-4 py-6 w-full max-w-2xl bg-white shadow-md rounded-lg">
+          <h1 class="text-2xl font-bold text-green-700 mb-4 text-center">Carbon Footprint Calculator</h1>
+          <form id="calculatorForm" class="flex flex-col">
+            <input class="shadow rounded p-2 mb-4 text-black bg-green-200" type="number" id="electricityUsage" placeholder="Electricity Usage in kWh" required>
+            <input class="shadow rounded p-2 mb-4 text-black bg-green-200" type="number" id="gasUsage" placeholder="Petroleum Usage in litres" required>
+            <input class="shadow rounded p-2 mb-4 text-black bg-green-200" type="number" id="waterUsage" placeholder="Travel in km" required>
+            <select class="shadow rounded p-2 mb-4 text-black bg-green-200" id="food" required>
+              <option value="veg">Vegetarian</option>
+              <option value="nonveg">Non-Vegetarian</option>
+            </select>
+            <input class="shadow rounded p-2 mb-4 text-black bg-green-200" type="number" id="foodConsumption" placeholder="Food Consumption in kg" required>
+            <button class="bg-green-600 rounded py-2 px-4 text-white font-bold" type="submit">Calculate Footprint</button>
+          </form>
+          <p id="result" class="mt-4 text-center text-green-700 font-bold"></p>
+          <p id="pointsDisplay" class="mt-2 text-center text-blue-700 font-bold"></p>
+
+          <!-- Links to History & Rewards -->
+          <a href="history.html" class="block text-center text-blue-600 font-bold mt-2">View History</a>
+          <a href="rewards.html" class="block text-center text-blue-600 font-bold mt-2">Check Rewards</a>
+        </div>
+      </div>
+
+      <script>
+        document.getElementById("calculatorForm").addEventListener("submit", function(event) {
+          event.preventDefault();
+  
+          const electricityUsage = parseFloat(document.getElementById("electricityUsage").value);
+          const gasUsage = parseFloat(document.getElementById("gasUsage").value);
+          const waterUsage = parseFloat(document.getElementById("waterUsage").value);
+          const foodConsumption = parseFloat(document.getElementById("foodConsumption").value);
+          const isVeg = document.getElementById("food").value === "veg";
+
+          const foodFactor = isVeg ? 2.7 : 15.45;
+          const carbonFootprint = (electricityUsage * 0.713) + (gasUsage * 2.4745) + (waterUsage * 0.20) + (foodConsumption * foodFactor);
+
+          // Store Footprint in Local Storage
+          let records = JSON.parse(localStorage.getItem("carbonRecords")) || [];
+          records.push({ date: new Date().toLocaleString(), footprint: carbonFootprint.toFixed(2) });
+          localStorage.setItem("carbonRecords", JSON.stringify(records));
+
+          let points = Math.floor((500 - carbonFootprint) / 100);
+          points = Math.max(points, 0); // Ensure points are non-negative
+
+          // Store Total Points
+          let totalPoints = (parseInt(localStorage.getItem("totalPoints")) || 0) + points;
+          localStorage.setItem("totalPoints", totalPoints);
+
+
+          document.getElementById("result").textContent = `Your estimated carbon footprint is ${carbonFootprint.toFixed(2)} kg CO2 per day.`;
+          document.getElementById("pointsDisplay").textContent = `You earned ${points.toFixed(0)} points. Total Points: ${totalPoints}`;
+        });
+      </script>
+  </div>
+</body>
+</html>

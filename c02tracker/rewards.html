@@ -1,42 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Rewards</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
+    <title>Image Badge Generator</title>
+    <style>
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #09f;
+            animation: spin 1s ease infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
-<body class="flex justify-center items-center min-h-screen bg-green-50">
-  <div class="px-8 py-6 mt-4 text-left bg-white shadow-lg rounded-lg w-96">
-    <h3 class="text-2xl font-bold text-center">Rewards & Achievements</h3>
-    <p class="text-center text-green-700 font-bold" id="points"></p>
-    <div id="badges" class="flex flex-col items-center mt-4"></div>
-    <a href="leaderboard.html" class="block text-center text-blue-600 font-bold mt-2">View Leaderboard</a>
-  </div>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
+    <h1 class="text-2xl font-bold mb-4">Your Eco Points & Badge</h1>
+    
+    <!-- Display Points -->
+    <div id="pointsDisplay" class="text-green-700 font-bold text-lg mb-4"></div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      let points = localStorage.getItem("totalPoints") || 0;
-      document.getElementById("points").textContent = `Total Points: ${points}`;
-let badgeContainer = document.getElementById("badges");
-badgeContainer.innerHTML = ""; // Clear previous badges
+    <!-- Generate Badge Button -->
+    <button class="bg-blue-500 text-white px-6 py-2 rounded" onclick="generateBadge()">Generate Badge</button>
 
-let badge = "";
-if (points >= 2000) {
-    badge = `<img src="img5.jpg" class="w-24 h-24"><p>🏆 Eco Champion </p>`;
-} else if (points >= 1000) {
-    badge = `<img src="img4.jpg" class="w-24 h-24"><p>💡 Carbon Saver </p>`;
-} else if (points >= 600) {
-    badge = `<img src="img3.jpg" class="w-24 h-24"><p>🚲 Sustainable Commuter </p>`;
-} else if (points >= 300) {
-    badge = `<img src="img2.jpg" class="w-24 h-24"><p>🌍 Green Advocate </p>`;
-} else if (points >= 0) {
-    badge = `<img src="img1.jpg" class="w-24 h-24"><p>🌱 Eco Starter </p>`;
-}
+    <!-- Loading Spinner -->
+    <div id="loading" class="hidden spinner mt-4"></div>
 
-badgeContainer.innerHTML = badge;
+    <!-- Badge Output -->
+    <div id="output" class="text-center mt-4"></div>
 
-    });
-  </script>
+    <script>
+        function getPoints() {
+            return parseInt(localStorage.getItem("totalPoints")) || 0;
+        }
+
+        function getBadgePrompt(points) {
+            if (points >= 500) {
+                return "Platinum Eco-Warrior Badge: A stunning platinum badge with eco-friendly symbols.";
+            } else if (points >= 300) {
+                return "Gold Eco-Hero Badge: A golden badge with green leaves and sustainability icons.";
+            } else if (points >= 150) {
+                return "Silver Eco-Saver Badge: A silver badge with a tree and nature-themed design.";
+            } else if (points >= 50) {
+                return "Bronze Eco-Contributor Badge: A bronze badge with a small eco-symbol.";
+            } else {
+                return "Beginner Eco-Enthusiast Badge: A basic green-themed badge for starting out.";
+            }
+        }
+
+        function displayPoints() {
+            const points = getPoints();
+            document.getElementById("pointsDisplay").textContent = `You have ${points} eco points!`;
+        }
+
+        function loadStoredBadge() {
+            const storedBadgeUrl = localStorage.getItem("badgeUrl");
+            if (storedBadgeUrl) {
+                document.getElementById("output").innerHTML = `<img src="${storedBadgeUrl}" alt="Generated Badge" class="mt-4 border border-gray-300 shadow-lg rounded-lg w-40 h-40">`;
+            }
+        }
+
+        function generateBadge() {
+            const points = getPoints();
+            const prompt = getBadgePrompt(points);
+
+            document.getElementById("loading").classList.remove("hidden");
+            document.getElementById("output").innerHTML = "";
+
+            axios.post("https://backend.buildpicoapps.com/aero/run/image-generation-api?pk=v1-Z0FBQUFBQm41UW9mVmM5NGdfMDJwWThiN2pIR3UxMEpGMEwzRGl0OXN2ZVp5SHdfUXgycGJKbHRlNHhkSzVUcWZ1Q1FJdzBpSUZDV1BoMy1MeXBOVVRSVVRVTzZSM3MweWc9PQ==", {
+                prompt: prompt
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                document.getElementById("loading").classList.add("hidden");
+
+                if (response.data.status === 'success') {
+                    const imageUrl = response.data.imageUrl;
+                    localStorage.setItem("badgeUrl", imageUrl); // Store badge URL
+
+                    document.getElementById("output").innerHTML = `
+                        <img src="${imageUrl}" alt="Generated Badge" class="mt-4 border border-gray-300 shadow-lg rounded-lg w-40 h-40">
+                    `;
+                } else {
+                    document.getElementById("output").innerHTML = '<p class="text-red-500">Failed to generate image. Please try again.</p>';
+                    console.error("API Error:", response.data);
+                }
+            })
+            .catch(error => {
+                document.getElementById("loading").classList.add("hidden");
+                document.getElementById("output").innerHTML = '<p class="text-red-500">An error occurred. Please try again later.</p>';
+                console.error("Network Error:", error);
+            });
+        }
+
+        // Load points and stored badge on page load
+        document.addEventListener("DOMContentLoaded", () => {
+            displayPoints();
+            loadStoredBadge();
+        });
+    </script>
 </body>
 </html>

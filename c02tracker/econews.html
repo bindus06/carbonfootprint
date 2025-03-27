@@ -38,28 +38,44 @@
     document.addEventListener('DOMContentLoaded', () => {
       const newsContainer = document.getElementById('news-container');
       const newsForm = document.getElementById('newsForm');
+      const API_KEY = 'YOUR_NEWSAPI_KEY'; // Replace with your NewsAPI key
+      const url = `https://newsapi.org/v2/everything?q=environment&sortBy=publishedAt&apiKey=${API_KEY}`;
 
-      // Load stored news articles
-      function loadNews() {
+      async function fetchNews() {
+        try {
+          const response = await fetch(url);
+          const data = await response.json();
+
+          if (data.articles) {
+            displayNews(data.articles.slice(0, 5));
+          }
+        } catch (error) {
+          newsContainer.innerHTML = '<p class="text-red-500 text-center">Failed to load news. Please try again later.</p>';
+        }
+      }
+
+      function loadUserNews() {
         const savedNews = JSON.parse(localStorage.getItem('userNews')) || [];
+        displayNews(savedNews);
+      }
 
-        // Clear container before adding articles
+      function displayNews(articles) {
         newsContainer.innerHTML = '';
-
-        savedNews.forEach(article => {
+        articles.forEach(article => {
           const articleElement = document.createElement('div');
           articleElement.classList.add('bg-white', 'p-4', 'rounded', 'shadow-md');
-
+          
           articleElement.innerHTML = `
-            <h2 class="text-xl font-bold"><a href="${article.link}" target="_blank" class="text-green-700 hover:underline">${article.title}</a></h2>
-            <p class="text-sm text-gray-600">${article.source} - ${article.date}</p>
+            <h2 class="text-xl font-bold">
+              <a href="${article.link || article.url}" target="_blank" class="text-green-700 hover:underline">${article.title}</a>
+            </h2>
+            <p class="text-sm text-gray-600">${article.source.name || article.source} - ${new Date(article.publishedAt || article.date).toLocaleDateString()}</p>
           `;
 
           newsContainer.appendChild(articleElement);
         });
       }
 
-      // Handle form submission
       newsForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
@@ -71,18 +87,16 @@
         const newArticle = { title, source, link, date };
 
         let savedNews = JSON.parse(localStorage.getItem('userNews')) || [];
-        savedNews.unshift(newArticle); // Add new article at the beginning
+        savedNews.unshift(newArticle);
         localStorage.setItem('userNews', JSON.stringify(savedNews));
 
-        // Clear form fields
         newsForm.reset();
 
-        // Reload news
-        loadNews();
+        loadUserNews();
       });
 
-      // Initial load
-      loadNews();
+      fetchNews();
+      loadUserNews();
     });
   </script>
 </body>

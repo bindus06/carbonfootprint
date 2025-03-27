@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Friendly Web App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: url('WhatsApp Image 2025-03-27 at 13.44.13_92dd95e6.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+    </style>
+</head>
+<body class="bg-transparent flex flex-col min-h-screen">
+    <!-- Navigation Bar -->
+    <nav class="flex justify-between items-center px-6 py-4 bg-green-700 bg-opacity-80 shadow-lg">
+        <!-- Logo and Image (Top Left) -->
+        <div class="flex items-center space-x-4">
+            <img src="cropped_image.png" alt="Eco Logo" class="w-12 h-12">
+            <svg width="200" height="60">
+                <text x="10" y="40" font-family="Brush Script MT, cursive" font-size="35" fill="#ffffff">
+                    CarbonWise
+                </text>
+            </svg>
+        </div>
+        <!-- Login & Signup (Top Right) -->
+        <div class="flex space-x-4">
+            <a href="login.html" class="text-white font-semibold hover:underline">Login</a>
+            <a href="signup.html" class="text-white font-semibold hover:underline">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="flex flex-col items-center justify-center flex-grow text-center px-6">
+        <h1 class="text-4xl font-bold text-white text-shadow">Welcome to CarbonWise</h1>
+        <p class="text-lg text-white text-shadow mt-2">Track, Reduce & Reward Your Carbon Footprint</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-white text-shadow py-4 bg-green-900 bg-opacity-70">
+        &copy; 2025 CarbonWise by CODECRAFTERS.
+    </footer>
+</body>
+</html>

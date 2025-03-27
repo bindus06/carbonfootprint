@@ -7,24 +7,33 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="flex justify-center items-center min-h-screen bg-green-50">
-  <div class="px-8 py-6 mt-4 text-left bg-white shadow-lg rounded-lg w-96">
+  <div class="px-8 py-6 mt-4 text-left bg-white shadow-lg rounded-lg w-[400px]">
     <h3 class="text-2xl font-bold text-center">Leaderboard</h3>
     <ul id="leaderboard" class="mt-4 text-center text-green-700 font-bold"></ul>
   </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+      const leaderboardList = document.getElementById("leaderboard");
       let userPoints = parseInt(localStorage.getItem("totalPoints")) || 0;
-      let leaderboard = [
-        { name: "Alex", points: 1200 },
-        { name: "Jordan", points: 900 },
-        { name: "Sam", points: 750 },
-        { name: "You", points: userPoints }
-      ];
+      let userName = localStorage.getItem("userName") || "You";
 
+      let leaderboard = JSON.parse(localStorage.getItem("leaderboardData")) || [];
+      
+      // Add current user to leaderboard
+      let existingUser = leaderboard.find(player => player.name === userName);
+      if (existingUser) {
+        existingUser.points = userPoints;
+      } else {
+        leaderboard.push({ name: userName, points: userPoints });
+      }
+
+      // Sort by points
       leaderboard.sort((a, b) => b.points - a.points);
+      localStorage.setItem("leaderboardData", JSON.stringify(leaderboard));
 
-      let leaderboardList = document.getElementById("leaderboard");
+      // Display leaderboard
+      leaderboardList.innerHTML = "";
       leaderboard.forEach(player => {
         let li = document.createElement("li");
         li.textContent = `${player.name}: ${player.points} points`;

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Tracker AI - Reduce Your Footprint</title>
+    <meta name="description" content="AI-powered carbon tracking and reduction platform. Automate reporting, identify reduction opportunities, and achieve your sustainability goals.">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* Basic CSS - Replace with your own styles */
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section {
+            padding: 40px 0;
+        }
+
+        .headline {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .subheadline {
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            background-color: #28a745; /* Example green */
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #1e7e34; /* Darker shade of green on hover */
+            transform: scale(1.05);
+        }
+
+        .feature-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .feature-item {
+            width: 300px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .testimonial {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        footer {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        /* Parallax Styling */
+        .parallax-container {
+            position: relative;
+            height: 500px; /* Adjust as needed */
+            overflow: hidden;
+        }
+
+        .parallax-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("your-background-image.jpg"); /* Replace with your image */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* This is the key for parallax */
+            z-index: -1; /* Place behind content */
+        }
+
+        .parallax-content {
+            position: relative;
+            z-index: 1; /* Ensure content is above the background */
+            padding: 50px;
+            color: white; /* Adjust text color for visibility */
+            text-align: center;
+        }
+
+        /* Hidden class for scroll-triggered animations */
+        .hidden {
+            opacity: 0;
+        }
+
+        /* Chart Styling */
+        #myChart {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="section parallax-container">
+        <div class="parallax-background"></div>
+        <div class="parallax-content">
+            <h1 class="headline">Unlock Carbon Reduction with AI-Powered Insights</h1>
+            <p class="subheadline">Our AI platform automatically tracks your emissions, identifies reduction opportunities, and helps you achieve your sustainability targets. Get started with a free demo.</p>
+            <div style="text-align: center;">
+                <a href="#demo-form" class="cta-button">Request a Demo</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="headline hidden">The Challenge of Carbon Management</h2>
+            <p class="hidden">Many businesses struggle with manual data collection, lack of visibility into emission sources, and complex reporting requirements. Our AI-powered platform solves these challenges.</p>
+
+            <div class="feature-list">
+                <div class="feature-item hidden">
+                    <img src="placeholder-icon.png" alt="Automated Data Collection" width="50">
+                    <h3>Automated Data Collection</h3>
+                    <p>Eliminate manual data entry with automated integration across your systems.</p>
+                </div>
+                <div class="feature-item hidden">
+                    <img src="placeholder-icon.png" alt="Real-Time Insights" width="50">
+                    <h3>Real-Time Insights</h3>
+                    <p>Get instant visibility into your carbon footprint with interactive dashboards.</p>
+                </div>
+                <div class="feature-item hidden">
+                    <img src="placeholder-icon.png" alt="AI-Powered Recommendations" width="50">
+                    <h3>AI-Powered Recommendations</h3>
+                    <p>Discover personalized reduction strategies based on your unique data.</p>
+                </div>
+                <div class="feature-item hidden">
+                    <img src="placeholder-icon.png" alt="Simplified Reporting" width="50">
+                    <h3>Simplified Reporting</h3>
+                    <p>Generate accurate and compliant reports effortlessly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="headline hidden">How CarbonWise Works</h2>
+            <img src="placeholder-process.png" alt="Process Diagram" width="800" class="hidden">
+            <ol>
+                <li class="hidden"><strong>Connect Your Data:</strong> Seamlessly integrate with your existing systems.</li>
+                <li class="hidden"><strong>AI Analyzes Emissions:</strong> Our AI engine automatically tracks and analyzes your carbon footprint.</li>
+                <li class="hidden"><strong>Reduce and Report:</strong> Identify reduction opportunities and generate accurate reports.</li>
+            </ol>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="headline hidden">Carbon Emission Trends</h2>
+            <canvas id="myChart"></canvas>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="headline hidden">What Our Customers Are Saying</h2>
+
+            <div class="testimonial hidden">
+                <p>"CarbonWise has transformed our approach to sustainability. We've seen a significant reduction in our emissions."</p>
+                <p>- Alex, CarbonWise</p>
+            </div>
+
+            <div class="testimonial hidden">
+                <p>"The AI-powered insights helped us identify hidden opportunities to reduce our carbon footprint and save money."</p>
+                <p>- Ethan, CarbonWise</p>
+            </div>
+
+            <p class="hidden">Trusted by: CarbonWise Group</p>
+        </div>
+    </section>
+
+    <section class="section" id="demo-form">
+        <div class="container">
+            <h2 class="headline hidden">Ready to Take Control of Your Carbon Footprint?</h2>
+            <p style="text-align: center;" class="hidden">Request a demo and see how our AI platform can help you achieve your sustainability goals.</p>
+
+            <form id="myForm" style="max-width: 500px; margin: 0 auto;">
+                <label for="name">Name:</label><br>
+                <input type="text" id="name" name="name" required><br><br>
+
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email" required>
+                <span id="emailError" style="color: red;"></span><br><br>
+
+                <label for="company">Company:</label><br>
+                <input type="text" id="company" name="company"><br><br>
+
+                <button type="submit" class="cta-button">Request Demo</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="section">
+        <div class="container">
+            <p>© 2024 CarbonWise. All rights reserved.</p>
+            <p><a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Form Validation
+        const form = document.getElementById('myForm');
+        const emailInput = document.getElementById('email');
+        const emailError = document.getElementById('emailError');
+
+        form.addEventListener('submit', function(event) {
+            if (!emailInput.validity.valid) {
+                emailError.textContent = "Please enter a valid email address.";
+                event.preventDefault(); // Prevent form submission
+            } else {
+                emailError.textContent = ""; // Clear the error message
+            }
+        });
+
+        // Scroll-Triggered Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp'); // Choose your animation
+                    entry.target.classList.remove('hidden'); // Remove "hidden" so it becomes visible
+                    observer.unobserve(entry.target); // Stop observing after animation
+                }
+            });
+        });
+
+        const hiddenElements = document.querySelectorAll('.hidden');
+        hiddenElements.forEach((el) => observer.observe(el));
+
+        // Chart.js
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'line', // Or 'bar', 'pie', etc.
+            data: {
+                labels: ['2020', '2021', '2022', '2023'],
+                datasets: [{
+                    label: 'Carbon Emissions (tons)',
+                    data: [1000, 900, 800, 700],  // Your data
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+body {
+    background-color: #f1f8e9;
+    color: #558b2f;
+  }
+  
+  h3 {
+    color: #33691e;
+  }
+  
+  #badges, #streak-box {
+    background-color: #dcedc8;
+    color: #33691e;
+  }
+  
+  a {
+    color: #689f38;
+  }
+  

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('nature-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-green-100 min-h-screen flex flex-col items-center justify-center">
+    <header class="bg-white p-4 shadow-md text-center w-full">
+        <h1 class="text-2xl font-bold text-green-700">Your Sustainability Progress</h1>
+    </header>
+
+    <main class="p-6 bg-white shadow-lg rounded-lg w-4/5 md:w-2/3 lg:w-1/2">
+        <canvas id="progressChart"></canvas>
+    </main>
+
+    <button onclick="window.location.href='home.html'" class="mt-4 bg-blue-500 text-white p-3 rounded shadow-md hover:bg-blue-700">Back to Dashboard</button>
+  
+    <footer class="bg-white p-4 shadow-md text-center w-full mt-6">
+        <p class="text-sm text-gray-600">&copy;2025 CarbonWise by CODECRAFTERS</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const ctx = document.getElementById("progressChart").getContext("2d");
+            let carbonRecords = JSON.parse(localStorage.getItem("carbonRecords")) || [];
+            
+            if (carbonRecords.length === 0) {
+                alert("No progress data available. Start tracking your activities!");
+                return;
+            }
+            
+            let labels = carbonRecords.map(entry => entry.date);
+            let footprints = carbonRecords.map(entry => entry.footprint);
+            
+            new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: "Your Carbon Footprint Over Time",
+                            data: footprints,
+                            backgroundColor: "rgba(255, 99, 132, 0.2)",
+                            borderColor: "#FF6384",
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
